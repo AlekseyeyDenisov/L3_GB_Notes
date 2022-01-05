@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/single_indent"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="@dimen/double_indent"
+    app:cardElevation="@dimen/single_indent"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="@dimen/single_indent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/h2"
+            android:padding="@dimen/single_indent"
+            tools:text="@string/tools_heading" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/single_indent"
+            tools:text="@string/tools_description" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textStyle="bold"
+            android:padding="@dimen/single_indent"
+            tools:text="@string/tools_date" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
