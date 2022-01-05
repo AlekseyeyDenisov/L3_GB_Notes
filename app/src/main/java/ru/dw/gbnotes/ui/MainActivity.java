@@ -1,8 +1,10 @@
-package ru.dw.gbnotes;
+package ru.dw.gbnotes.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ru.dw.gbnotes.R;
 
 public class MainActivity extends AppCompatActivity {
 
