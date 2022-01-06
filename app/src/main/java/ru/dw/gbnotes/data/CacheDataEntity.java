@@ -8,9 +8,13 @@ import ru.dw.gbnotes.domain.model.NotesEntity;
 public class CacheDataEntity implements RepositoryData {
     private ArrayMap<String, NotesEntity> cacheMap;
 
+    public CacheDataEntity() {
+        this.cacheMap = createDummyEmployeesData();
+    }
+
     @Override
     public ArrayMap<String, NotesEntity> getNoteData() {
-        return cacheMap = createDummyEmployeesData();
+        return cacheMap;
     }
 
     @Override
