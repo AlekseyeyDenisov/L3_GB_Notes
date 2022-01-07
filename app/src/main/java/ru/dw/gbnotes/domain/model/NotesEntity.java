@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class NotesEntity implements Parcelable {
 
-    private String id;
+    private final String id;
     private String heading;
     private String description;
     private String date;

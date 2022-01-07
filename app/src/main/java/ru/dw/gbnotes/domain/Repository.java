@@ -1,8 +1,7 @@
 package ru.dw.gbnotes.domain;
 
+import java.util.ArrayList;
 
-
-import androidx.collection.ArrayMap;
 import ru.dw.gbnotes.data.CacheDataEntity;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
@@ -11,22 +10,22 @@ public class Repository implements RepositoryData {
 
 
     @Override
-    public ArrayMap<String, NotesEntity> getNoteData() {
+    public ArrayList<NotesEntity> getNoteData() {
         return data.getNoteData();
     }
 
     @Override
-    public void setItemNotes(String id, NotesEntity notesEntity) {
-        data.setItemNotes(id, notesEntity);
+    public Boolean setItemNotes(NotesEntity notesEntity) {
+        return data.setItemNotes(notesEntity);
     }
 
     @Override
-    public void deleteItemNotes(String id) {
-        data.deleteItemNotes(id);
+    public Boolean deleteItemNotes(NotesEntity notesEntity) {
+       return data.deleteItemNotes(notesEntity);
     }
 
     @Override
-    public void upDataItemNote(String id, NotesEntity notesEntity) {
-        data.upDataItemNote(id, notesEntity);
+    public void upDataItemNote(NotesEntity notesEntity) {
+        data.upDataItemNote(notesEntity);
     }
 }

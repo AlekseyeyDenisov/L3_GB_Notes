@@ -6,12 +6,8 @@ import android.content.Context;
 import ru.dw.gbnotes.domain.Repository;
 
 public class App extends Application {
-    private Repository repository = new Repository();
+    private final Repository repository = new Repository();
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
 
     public static App get(Context context){
         return (App) context.getApplicationContext();

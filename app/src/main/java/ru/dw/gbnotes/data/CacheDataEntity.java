@@ -1,65 +1,71 @@
 package ru.dw.gbnotes.data;
 
-import androidx.collection.ArrayMap;
+import java.util.ArrayList;
 
 import ru.dw.gbnotes.domain.RepositoryData;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
 public class CacheDataEntity implements RepositoryData {
-    private ArrayMap<String, NotesEntity> cacheMap;
+    private final ArrayList<NotesEntity> cacheMap;
 
     public CacheDataEntity() {
         this.cacheMap = createDummyEmployeesData();
     }
 
     @Override
-    public ArrayMap<String, NotesEntity> getNoteData() {
+    public ArrayList<NotesEntity> getNoteData() {
         return cacheMap;
     }
 
     @Override
-    public void setItemNotes(String id, NotesEntity notesEntity) {
-        cacheMap.put(id, notesEntity);
+    public Boolean setItemNotes(NotesEntity notesEntity) {
+        return cacheMap.add(notesEntity);
     }
 
     @Override
-    public void deleteItemNotes(String id) {
-        cacheMap.remove(id);
+    public Boolean deleteItemNotes(NotesEntity notesEntity) {
+        try {
+            return cacheMap.remove(notesEntity);
+        } catch (IllegalArgumentException iae) {
+            iae.printStackTrace();
+        }
+        return false;
     }
 
     @Override
-    public void upDataItemNote(String id, NotesEntity notesEntity) {
-        cacheMap.replace(id, notesEntity);
+    public void upDataItemNote(NotesEntity notesEntity) {
+
     }
 
-    private static ArrayMap<String, NotesEntity> createDummyEmployeesData() {
-        final ArrayMap<String, NotesEntity> arrayMap = new ArrayMap<>();
 
-        arrayMap.put("1", new NotesEntity(
+    private static ArrayList<NotesEntity> createDummyEmployeesData() {
+        final ArrayList<NotesEntity> arrayMap = new ArrayList<>();
+
+        arrayMap.add(new NotesEntity(
                 "1",
                 "Заметка 1",
                 " Значимость этих проблем настолько очевидна, что консультация ",
                 "06.01.2022"
         ));
-        arrayMap.put("2", new NotesEntity(
+        arrayMap.add(new NotesEntity(
                 "2",
                 "Заметка 2",
                 " Значимость этих проблем настолько очевидна, что консультация ",
                 "07.01.2022"
         ));
-        arrayMap.put("3", new NotesEntity(
+        arrayMap.add(new NotesEntity(
                 "3",
                 "Заметка 3",
                 " Значимость этих проблем настолько очевидна, что консультация ",
                 "08.01.2022"
         ));
-        arrayMap.put("4", new NotesEntity(
+        arrayMap.add(new NotesEntity(
                 "4",
                 "Заметка 4",
                 " Значимость этих проблем настолько очевидна, что консультация ",
                 "09.01.2022"
         ));
-        arrayMap.put("5", new NotesEntity(
+        arrayMap.add(new NotesEntity(
                 "5",
                 "Заметка 5",
                 " Значимость этих проблем настолько очевидна, что консультация ",

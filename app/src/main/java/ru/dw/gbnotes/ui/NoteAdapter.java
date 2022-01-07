@@ -6,17 +6,25 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.collection.ArrayMap;
+
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
 
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
-    private ArrayMap<String, NotesEntity> data;
+    private ArrayList<NotesEntity> data  = new ArrayList<>();
+    private OnNoteListener onNoteListener;
+
+    public void setOnDeleteClickListener(OnNoteListener onNoteListener) {
+        this.onNoteListener = onNoteListener;
+    }
 
 
-    public void setData(ArrayMap<String, NotesEntity> noteList) {
+    public void setData(ArrayList<NotesEntity> noteList) {
         data = noteList;
         notifyDataSetChanged();
     }
@@ -26,13 +34,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        return new NoteViewHolder(inflater,parent);
+        return new NoteViewHolder(inflater,parent,onNoteListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        holder.bind(data.valueAt(position));
+        holder.bind(data.get(position));
 
     }
 
