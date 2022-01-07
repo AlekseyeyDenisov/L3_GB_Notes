@@ -3,4 +3,5 @@
     <dimen name="h2">20sp</dimen>
     <dimen name="single_indent">8dp</dimen>
     <dimen name="double_indent">16dp</dimen>
+    <dimen name="min_heading_description">150dp</dimen>
 </resources>

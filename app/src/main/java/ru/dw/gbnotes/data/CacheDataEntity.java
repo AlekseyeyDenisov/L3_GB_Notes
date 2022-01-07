@@ -5,26 +5,27 @@ import java.util.ArrayList;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
 public class CacheDataEntity implements RepositoryData {
-    private final ArrayList<NotesEntity> cacheMap;
+    private final ArrayList<NotesEntity> cache;
 
     public CacheDataEntity() {
-        this.cacheMap = createDummyEmployeesData();
+        this.cache = createDummyEmployeesData();
     }
 
     @Override
     public ArrayList<NotesEntity> getNoteData() {
-        return cacheMap;
+        return cache;
     }
 
     @Override
     public Boolean setItemNotes(NotesEntity notesEntity) {
-        return cacheMap.add(notesEntity);
+        return cache.add(notesEntity);
     }
 
     @Override
     public Boolean deleteItemNotes(NotesEntity notesEntity) {
         try {
-            return cacheMap.remove(notesEntity);
+            cache.remove(findPosition(notesEntity));
+            return true;
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
         }
@@ -33,7 +34,17 @@ public class CacheDataEntity implements RepositoryData {
 
     @Override
     public void upDataItemNote(NotesEntity notesEntity) {
+        cache.set(findPosition(notesEntity),notesEntity);
 
+    }
+
+    private int findPosition(NotesEntity notesEntity) {
+        for (int i = 0; i < cache.size(); i++) {
+            if (notesEntity.getId().equals(cache.get(i).getId())) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Нет такого элемента");
     }
 
 

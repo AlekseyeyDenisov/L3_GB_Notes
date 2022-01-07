@@ -33,6 +33,7 @@ public  class NoteViewHolder extends RecyclerView.ViewHolder {
     public void bind(NotesEntity notes) {
         deleteEntry.setOnClickListener(v-> onNoteListener.onDeleteNoteItem(notes));
         editEntry.setOnClickListener(v-> onNoteListener.onUpDataNoteItem(notes) );
+        itemView.setOnClickListener(v->onNoteListener.onUpDataNoteItem(notes));
 
         heading.setText(notes.getHeading());
         description.setText(notes.getDescription());

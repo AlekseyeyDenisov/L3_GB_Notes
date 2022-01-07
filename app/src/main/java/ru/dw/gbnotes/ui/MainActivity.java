@@ -1,10 +1,13 @@
 package ru.dw.gbnotes.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
@@ -16,14 +19,24 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
     Repository repository;
     NoteAdapter adapter;
     RecyclerView recyclerView;
+    FloatingActionButton fab;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fab = findViewById(R.id.fab);
         repository = App.get(this).getRepository();
         initRecycler();
+        newNote();
+    }
+
+    private void newNote() {
+        fab.setOnClickListener(v->{
+            Intent intent = new Intent(this, NoteActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initRecycler() {
@@ -46,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
 
     @Override
     public void onUpDataNoteItem(NotesEntity notesEntity) {
+        Intent intent = new Intent(this, NoteActivity.class);
+        intent.putExtra(NoteActivity.NOTE_EXTRA_KEY, notesEntity);
+        startActivity(intent);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.setData(repository.getNoteData());
     }
 }
