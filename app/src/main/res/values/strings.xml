@@ -7,6 +7,7 @@
         широкому кругу (специалистов) участие в формировании позиций, занимаемых участниками
         в отношении поставленных задач.</string>
     <string name="tools_heading">Заголовок</string>
+    <string name="hint_description">Текст заметки</string>
     <string name="tools_date">05.01.2022</string>
     <string name="content_description_fab">Добавить новую запись</string>
 </resources>
