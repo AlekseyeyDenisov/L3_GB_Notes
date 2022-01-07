@@ -22,10 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/h2"
             android:padding="@dimen/single_indent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/h2"
+            android:textStyle="bold"
             tools:text="@string/tools_heading" />
 
         <TextView
@@ -45,7 +45,7 @@
                 android:src="@drawable/ic_baseline_edit_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <androidx.appcompat.widget.AppCompatImageButton
