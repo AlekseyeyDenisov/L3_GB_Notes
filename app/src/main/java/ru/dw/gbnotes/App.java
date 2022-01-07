@@ -3,7 +3,7 @@ package ru.dw.gbnotes;
 import android.app.Application;
 import android.content.Context;
 
-import ru.dw.gbnotes.domain.Repository;
+import ru.dw.gbnotes.data.Repository;
 
 public class App extends Application {
     private final Repository repository = new Repository();

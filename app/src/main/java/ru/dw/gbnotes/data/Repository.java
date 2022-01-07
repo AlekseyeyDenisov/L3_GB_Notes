@@ -1,8 +1,7 @@
-package ru.dw.gbnotes.domain;
+package ru.dw.gbnotes.data;
 
 import java.util.ArrayList;
 
-import ru.dw.gbnotes.data.CacheDataEntity;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
 public class Repository implements RepositoryData {

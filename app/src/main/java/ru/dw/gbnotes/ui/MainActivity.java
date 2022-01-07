@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
-import ru.dw.gbnotes.domain.Repository;
+import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
 
