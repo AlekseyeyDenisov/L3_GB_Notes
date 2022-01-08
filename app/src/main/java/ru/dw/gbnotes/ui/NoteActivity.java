@@ -17,8 +17,11 @@ public class NoteActivity extends AppCompatActivity {
     public static final String NOTE_EXTRA_KEY = "NOTE_EXTRA_KEY";
     Repository repository;
 
-    EditText editTextHeadingNote, editTextDescriptionNote, editTextDateNote;
-    ImageButton bottomSaveNote, bottomDeleteNote;
+    EditText editTextHeadingNote;
+    EditText editTextDescriptionNote;
+    EditText editTextDateNote;
+    ImageButton bottomSaveNote;
+    ImageButton bottomDeleteNote;
 
 
     @Override
@@ -27,18 +30,20 @@ public class NoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note);
         repository = App.get(this).getRepository();
         initView();
+        newOrUpNone();
+    }
 
+    private void newOrUpNone() {
         NotesEntity notesEntity = getIntent().getParcelableExtra(NOTE_EXTRA_KEY);
         if (notesEntity != null)
             updateNote(notesEntity);
         else newNote();
-
     }
 
     private void initView() {
-        editTextHeadingNote = findViewById(R.id.edit_text_heading_note);
-        editTextDescriptionNote = findViewById(R.id.edit_text_description_note);
-        editTextDateNote = findViewById(R.id.edit_text_date_note);
+        editTextHeadingNote = findViewById(R.id.heading_note_edit_text);
+        editTextDescriptionNote = findViewById(R.id.description_note_edit_text);
+        editTextDateNote = findViewById(R.id.date_note_edit_text);
 
         bottomSaveNote = findViewById(R.id.bottom_save_entry_note);
         bottomDeleteNote = findViewById(R.id.bottom_delete_entry_note);
@@ -65,11 +70,11 @@ public class NoteActivity extends AppCompatActivity {
                 "",
                 ""
         );
-        bottomSaveNote.setOnClickListener(v->{
+        bottomSaveNote.setOnClickListener(v -> {
             repository.setItemNotes(upDataView(notesEntity));
             finish();
         });
-        bottomDeleteNote.setOnClickListener(v-> finish());
+        bottomDeleteNote.setOnClickListener(v -> finish());
     }
 
     private void updateNote(NotesEntity notesEntity) {
@@ -77,13 +82,13 @@ public class NoteActivity extends AppCompatActivity {
         editTextDescriptionNote.setText(notesEntity.getDescription());
         editTextDateNote.setText(notesEntity.getDate());
 
-        bottomDeleteNote.setOnClickListener(v->{
+        bottomDeleteNote.setOnClickListener(v -> {
             if (repository.deleteItemNotes(notesEntity))
                 finish();
         });
-        bottomSaveNote.setOnClickListener(v->{
-            repository.upDataItemNote(upDataView(notesEntity));
-            finish();
+        bottomSaveNote.setOnClickListener(v -> {
+            if (repository.upDataItemNote(upDataView(notesEntity)))
+                finish();
         });
     }
 

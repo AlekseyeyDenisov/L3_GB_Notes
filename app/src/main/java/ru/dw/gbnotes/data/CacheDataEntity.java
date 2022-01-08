@@ -33,9 +33,9 @@ public class CacheDataEntity implements RepositoryData {
     }
 
     @Override
-    public void upDataItemNote(NotesEntity notesEntity) {
-        cache.set(findPosition(notesEntity),notesEntity);
-
+    public Boolean upDataItemNote(NotesEntity notesEntity) {
+        NotesEntity result = cache.set(findPosition(notesEntity), notesEntity);
+        return result != null;
     }
 
     private int findPosition(NotesEntity notesEntity) {

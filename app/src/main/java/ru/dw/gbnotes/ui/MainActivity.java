@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
     }
 
     private void newNote() {
-        fab.setOnClickListener(v->{
+        fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, NoteActivity.class);
             startActivity(intent);
         });
@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
         adapter.setData(repository.getNoteData());
         adapter.setOnDeleteClickListener(this);
         recyclerView.setAdapter(adapter);
-
-
     }
 
 
