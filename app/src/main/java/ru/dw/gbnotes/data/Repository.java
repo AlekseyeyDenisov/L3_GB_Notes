@@ -24,7 +24,7 @@ public class Repository implements RepositoryData {
     }
 
     @Override
-    public void upDataItemNote(NotesEntity notesEntity) {
-        data.upDataItemNote(notesEntity);
+    public Boolean upDataItemNote(NotesEntity notesEntity) {
+       return data.upDataItemNote(notesEntity);
     }
 }

@@ -10,5 +10,5 @@ public interface RepositoryData {
     ArrayList<NotesEntity> getNoteData();
     Boolean setItemNotes(NotesEntity notesEntity);
     Boolean deleteItemNotes(NotesEntity notesEntity);
-    void upDataItemNote(NotesEntity notesEntity);
+    Boolean upDataItemNote(NotesEntity notesEntity);
 }
