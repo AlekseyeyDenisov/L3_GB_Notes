@@ -3,16 +3,22 @@ package ru.dw.gbnotes.ui;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.data.Repository;
+import ru.dw.gbnotes.domain.OnNoteListener;
 import ru.dw.gbnotes.domain.model.NotesEntity;
+import ru.dw.gbnotes.ui.adapter.NoteAdapter;
 
 
 public class MainActivity extends AppCompatActivity implements OnNoteListener {
@@ -32,6 +38,15 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
         newNote();
     }
 
+    private void initRecycler() {
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new NoteAdapter();
+        adapter.setOnDeleteClickListener(this);
+        getItemTouchHelper().attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
+    }
+
     private void newNote() {
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(this, NoteActivity.class);
@@ -39,20 +54,13 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
         });
     }
 
-    private void initRecycler() {
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NoteAdapter();
-        adapter.setData(repository.getNoteData());
-        adapter.setOnDeleteClickListener(this);
-        recyclerView.setAdapter(adapter);
-    }
-
 
     @Override
-    public void onDeleteNoteItem(NotesEntity notesEntity) {
-        if (repository.deleteItemNotes(notesEntity))
-            adapter.setData(repository.getNoteData());
+    public void onDeleteNoteItem(NotesEntity notesEntity, int position) {
+        List<NotesEntity> repoData = repository.getNoteData();
+        repository.getNoteData().remove(repoData.get(position));
+        adapter.deleteItem(position);
+
     }
 
     @Override
@@ -67,4 +75,23 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
         super.onResume();
         adapter.setData(repository.getNoteData());
     }
+
+    private ItemTouchHelper getItemTouchHelper() {
+        return new ItemTouchHelper((new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                List<NotesEntity> list = repository.getNoteData();
+                repository.getNoteData().remove(list.get(viewHolder.getAdapterPosition()));
+                adapter.deleteItem(viewHolder.getAdapterPosition());
+
+
+            }
+        }));
+    }
+
 }

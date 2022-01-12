@@ -1,4 +1,4 @@
-package ru.dw.gbnotes.ui;
+package ru.dw.gbnotes.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.domain.model.NotesEntity;
+import ru.dw.gbnotes.domain.OnNoteListener;
 
 public  class NoteViewHolder extends RecyclerView.ViewHolder {
     private final TextView heading = itemView.findViewById(R.id.heading);
@@ -30,15 +31,14 @@ public  class NoteViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void bind(NotesEntity notes) {
-        deleteEntry.setOnClickListener(v-> onNoteListener.onDeleteNoteItem(notes));
+    public void bind(NotesEntity notes, int position) {
+        deleteEntry.setOnClickListener(v-> onNoteListener.onDeleteNoteItem(notes,position));
         editEntry.setOnClickListener(v-> onNoteListener.onUpDataNoteItem(notes) );
         itemView.setOnClickListener(v->onNoteListener.onUpDataNoteItem(notes));
 
         heading.setText(notes.getHeading());
         description.setText(notes.getDescription());
         date.setText(notes.getDate());
-
 
     }
 }

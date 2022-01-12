@@ -1,13 +1,11 @@
-package ru.dw.gbnotes.data;
+package ru.dw.gbnotes.domain.model;
 
 
-import java.util.ArrayList;
-
-import ru.dw.gbnotes.domain.model.NotesEntity;
+import java.util.List;
 
 public interface RepositoryData {
 
-    ArrayList<NotesEntity> getNoteData();
+    List<NotesEntity> getNoteData();
     Boolean setItemNotes(NotesEntity notesEntity);
     Boolean deleteItemNotes(NotesEntity notesEntity);
     Boolean upDataItemNote(NotesEntity notesEntity);

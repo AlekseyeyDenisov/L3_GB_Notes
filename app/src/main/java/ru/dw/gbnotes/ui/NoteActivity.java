@@ -49,23 +49,12 @@ public class NoteActivity extends AppCompatActivity {
         bottomDeleteNote = findViewById(R.id.bottom_delete_entry_note);
 
 
-        bottomSaveNote.setOnClickListener(v -> {
-            NotesEntity notesEntity = new NotesEntity(
-                    "15",
-                    "15",
-                    "dfbsfsd",
-                    "01.01.2022"
-            );
-            if (repository.setItemNotes(notesEntity))
-                finish();
-        });
-
     }
 
     private void newNote() {
         final Random random = new Random();
         NotesEntity notesEntity = new NotesEntity(
-                "" + random.nextInt(),
+                 random.nextLong(),
                 "",
                 "",
                 ""

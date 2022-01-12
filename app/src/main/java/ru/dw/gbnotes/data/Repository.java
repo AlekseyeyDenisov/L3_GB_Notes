@@ -1,15 +1,17 @@
 package ru.dw.gbnotes.data;
 
-import java.util.ArrayList;
 
+import java.util.List;
+
+import ru.dw.gbnotes.data.cache.CacheDataEntity;
 import ru.dw.gbnotes.domain.model.NotesEntity;
+import ru.dw.gbnotes.domain.model.RepositoryData;
 
 public class Repository implements RepositoryData {
     RepositoryData data = new CacheDataEntity();
 
-
     @Override
-    public ArrayList<NotesEntity> getNoteData() {
+    public List<NotesEntity> getNoteData() {
         return data.getNoteData();
     }
 
