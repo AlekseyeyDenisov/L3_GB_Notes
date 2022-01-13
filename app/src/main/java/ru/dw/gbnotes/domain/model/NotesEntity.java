@@ -27,7 +27,9 @@ public class NotesEntity implements Parcelable {
         }
     };
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public String getHeading() {
         return heading;
@@ -61,14 +63,18 @@ public class NotesEntity implements Parcelable {
     }
 
     protected NotesEntity(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
+        id = readOptLong(in);
         heading = in.readString();
         description = in.readString();
         date = in.readString();
+    }
+
+    private Long readOptLong(Parcel in) {
+        if (in.readByte() == 0) {
+            return null;
+        } else {
+            return in.readLong();
+        }
     }
 
     @Override

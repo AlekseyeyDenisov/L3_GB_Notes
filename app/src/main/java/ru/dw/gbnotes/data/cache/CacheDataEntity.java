@@ -10,7 +10,7 @@ public class CacheDataEntity implements RepositoryData {
     private final List<NotesEntity> cache = new ArrayList<>();
 
     public CacheDataEntity() {
-        this.cache.addAll(createDummyEmployeesData());
+        this.cache.addAll(createNoteDataCahe());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CacheDataEntity implements RepositoryData {
     @Override
     public Boolean upDataItemNote(NotesEntity notesEntity) {return cache.add(notesEntity);}
 
-    private static List<NotesEntity> createDummyEmployeesData() {
+    private static List<NotesEntity> createNoteDataCahe() {
         final List<NotesEntity> listNote = new ArrayList<>();
 
         listNote.add(new NotesEntity(
