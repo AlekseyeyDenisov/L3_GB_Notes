@@ -2,6 +2,7 @@ package ru.dw.gbnotes.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,11 +57,14 @@ public class MainActivity extends AppCompatActivity implements OnNoteListener {
 
 
     @Override
-    public void onDeleteNoteItem(NotesEntity notesEntity, int position) {
+    public void onDeleteNoteItem(NotesEntity notesEntity) {
         List<NotesEntity> repoData = repository.getNoteData();
-        repository.getNoteData().remove(repoData.get(position));
-        adapter.deleteItem(position);
-
+        for (int i = 0; i < repoData.size(); i++) {
+            if (repoData.get(i).equals(notesEntity)){
+                repository.getNoteData().remove(repoData.get(i));
+                adapter.deleteItem(i);
+            }
+        }
     }
 
     @Override

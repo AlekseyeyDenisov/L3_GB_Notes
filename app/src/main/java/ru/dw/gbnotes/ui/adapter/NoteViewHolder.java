@@ -1,5 +1,6 @@
 package ru.dw.gbnotes.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -31,8 +32,8 @@ public  class NoteViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void bind(NotesEntity notes, int position) {
-        deleteEntry.setOnClickListener(v-> onNoteListener.onDeleteNoteItem(notes,position));
+    public void bind(NotesEntity notes) {
+        deleteEntry.setOnClickListener(v-> onNoteListener.onDeleteNoteItem(notes));
         editEntry.setOnClickListener(v-> onNoteListener.onUpDataNoteItem(notes) );
         itemView.setOnClickListener(v->onNoteListener.onUpDataNoteItem(notes));
 
