@@ -3,26 +3,17 @@ package ru.dw.gbnotes.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "note")
 public class NotesEntity implements Parcelable {
 
-    private final String id;
+    @PrimaryKey
+    private final Long id;
     private String heading;
     private String description;
     private String date;
-
-    public NotesEntity(String id, String heading, String description, String date) {
-        this.id = id;
-        this.heading = heading;
-        this.description = description;
-        this.date = date;
-    }
-
-    protected NotesEntity(Parcel in) {
-        id = in.readString();
-        heading = in.readString();
-        description = in.readString();
-        date = in.readString();
-    }
 
     public static final Creator<NotesEntity> CREATOR = new Creator<NotesEntity>() {
         @Override
@@ -36,7 +27,7 @@ public class NotesEntity implements Parcelable {
         }
     };
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -64,17 +55,45 @@ public class NotesEntity implements Parcelable {
         this.date = date;
     }
 
+    public NotesEntity(Long id, String heading, String description, String date) {
+        this.id = id;
+        this.heading = heading;
+        this.description = description;
+        this.date = date;
+    }
+
+    protected NotesEntity(Parcel in) {
+        id = readOptLong(in);
+        heading = in.readString();
+        description = in.readString();
+        date = in.readString();
+    }
+
+    private Long readOptLong(Parcel in) {
+        if (in.readByte() == 0) {
+            return null;
+        } else {
+            return in.readLong();
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
+        dest.writeString(heading);
+        dest.writeString(description);
+        dest.writeString(date);
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(heading);
-        parcel.writeString(description);
-        parcel.writeString(date);
 
-    }
 }
