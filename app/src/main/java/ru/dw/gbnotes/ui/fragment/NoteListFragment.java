@@ -1,7 +1,6 @@
 package ru.dw.gbnotes.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +70,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     }
 
     private void initRecycler(@NonNull View view) {
-        recyclerView = view.findViewById(R.id.fragment_note_list_ecycler_view);
+        recyclerView = view.findViewById(R.id.fragment_note_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NoteAdapter();
         adapter.setOnDeleteClickListener(this);

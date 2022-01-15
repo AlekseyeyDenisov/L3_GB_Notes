@@ -4,12 +4,13 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.dw.gbnotes.R;
-import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.domain.OnNoteListener;
+import ru.dw.gbnotes.domain.model.NotesEntity;
 
 public  class NoteViewHolder extends RecyclerView.ViewHolder {
     private final TextView heading = itemView.findViewById(R.id.heading);

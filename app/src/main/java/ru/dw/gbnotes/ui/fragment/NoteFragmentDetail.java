@@ -2,7 +2,6 @@ package ru.dw.gbnotes.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import java.util.Random;
 
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
@@ -32,18 +29,29 @@ public class NoteFragmentDetail extends Fragment {
 
     NotesEntity notesEntity;
 
+    private NoteFragmentDetail.Controller controller;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof NoteListFragment.Controller) {
+            controller = (NoteFragmentDetail.Controller) context;
+        } else {
+            throw new IllegalStateException("Activity must implement  NoteFragmentDetail.Controller");
+        }
+
+    }
+
     public static NoteFragmentDetail newInstance(NotesEntity notesEntity) {
         NoteFragmentDetail fragmentDetail = new NoteFragmentDetail();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_KEY,notesEntity);
+        bundle.putParcelable(BUNDLE_KEY, notesEntity);
 
         fragmentDetail.setArguments(bundle);
 
         return fragmentDetail;
     }
-
-
 
 
     @Nullable
@@ -59,41 +67,33 @@ public class NoteFragmentDetail extends Fragment {
 
         notesEntity = getArguments().getParcelable(BUNDLE_KEY);
 
-        updateNote(notesEntity);
+        if (!notesEntity.getHeading().equals(""))
+            updateNote(notesEntity);
+        else newNote();
 
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
     }
 
 
     private void initView(@NonNull View view) {
-        editTextHeadingNote = view.findViewById(R.id.heading_note_edit_text);
-        editTextDescriptionNote = view.findViewById(R.id.description_note_edit_text);
-        editTextDateNote = view.findViewById(R.id.date_note_edit_text);
+        editTextHeadingNote = view.findViewById(R.id.fragment_details__heading_note_edit_text);
+        editTextDescriptionNote = view.findViewById(R.id.fragment_details__description_note_edit_text);
+        editTextDateNote = view.findViewById(R.id.fragment_details__date_note_edit_text);
 
-        bottomSaveNote = view.findViewById(R.id.bottom_save_entry_note);
-        bottomDeleteNote = view.findViewById(R.id.bottom_delete_entry_note);
+        bottomSaveNote = view.findViewById(R.id.fragment_details__bottom_save_entry_note);
+        bottomDeleteNote = view.findViewById(R.id.fragment_details__bottom_delete_entry_note);
 
 
     }
 
-//    private void newNote() {
-//        final Random random = new Random();
-//        NotesEntity notesEntity = new NotesEntity(
-//                random.nextLong(),
-//                "",
-//                "",
-//                ""
-//        );
-//        bottomSaveNote.setOnClickListener(v -> {
-//            repository.setItemNotes(upDataView(notesEntity));
-//            //finish();
-//        });
-//        //bottomDeleteNote.setOnClickListener(v -> finish());
-//    }
+    private void newNote() {
+        bottomSaveNote.setOnClickListener(v -> {
+            NotesEntity newNotesEntity = upDataView(notesEntity);
+            if (!newNotesEntity.getHeading().equals(""))
+            repository.setItemNotes(newNotesEntity);
+            controller.detailFinish();
+        });
+        bottomDeleteNote.setOnClickListener(v -> controller.detailFinish());
+    }
 
     private void updateNote(NotesEntity notesEntity) {
         editTextHeadingNote.setText(notesEntity.getHeading());
@@ -101,12 +101,13 @@ public class NoteFragmentDetail extends Fragment {
         editTextDateNote.setText(notesEntity.getDate());
 
         bottomDeleteNote.setOnClickListener(v -> {
-            ///if (repository.deleteItemNotes(notesEntity))
-            // finish();
+            if (repository.deleteItemNotes(notesEntity))
+                controller.detailFinish();
+
         });
         bottomSaveNote.setOnClickListener(v -> {
-            // if (repository.upDataItemNote(upDataView(notesEntity)))
-            //  finish();
+            if (repository.upDataItemNote(upDataView(notesEntity)))
+                controller.detailFinish();
         });
     }
 
@@ -115,5 +116,13 @@ public class NoteFragmentDetail extends Fragment {
         notesEntity.setDescription(editTextDescriptionNote.getText().toString());
         notesEntity.setDate(editTextDateNote.getText().toString());
         return notesEntity;
+    }
+
+    public interface Controller { void detailFinish(); }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        controller.detailFinish();
     }
 }
