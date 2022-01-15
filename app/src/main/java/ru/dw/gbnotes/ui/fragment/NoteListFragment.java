@@ -1,5 +1,6 @@
 package ru.dw.gbnotes.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,25 +17,40 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Random;
 
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.OnNoteListener;
 import ru.dw.gbnotes.domain.model.NotesEntity;
-import ru.dw.gbnotes.ui.NoteActivity;
 import ru.dw.gbnotes.ui.adapter.NoteAdapter;
 
 public class NoteListFragment extends Fragment implements OnNoteListener {
-    Repository repository;
     NoteAdapter adapter;
     RecyclerView recyclerView;
     FloatingActionButton fab;
 
+    Repository repository;
+
+    private Controller controller;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof Controller) {
+            controller = (Controller) context;
+        } else {
+            throw new IllegalStateException("Activity must implement  NoteListFragment.Controller");
+        }
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_note_list,container,false);
+        return inflater.inflate(R.layout.fragment_note_list, container, false);
     }
 
     @Override
@@ -48,6 +64,12 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.setData(repository.getNoteData());
+    }
+
     private void initRecycler(@NonNull View view) {
         recyclerView = view.findViewById(R.id.fragment_note_list_ecycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -55,13 +77,19 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
         adapter.setOnDeleteClickListener(this);
         getItemTouchHelper().attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
-        adapter.setData(repository.getNoteData());
+
     }
 
     private void newNote() {
         fab.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), NoteActivity.class);
-            startActivity(intent);
+            final Random random = new Random();
+            NotesEntity notesEntity = new NotesEntity(
+                    random.nextLong(),
+                    "",
+                    "",
+                    ""
+            );
+            controller.showNoteDetails(notesEntity);
         });
     }
 
@@ -70,7 +98,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     public void onDeleteNoteItem(NotesEntity notesEntity) {
         List<NotesEntity> repoData = repository.getNoteData();
         for (int i = 0; i < repoData.size(); i++) {
-            if (repoData.get(i).equals(notesEntity)){
+            if (repoData.get(i).equals(notesEntity)) {
                 repository.getNoteData().remove(repoData.get(i));
                 adapter.deleteItem(i);
             }
@@ -79,11 +107,11 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     @Override
     public void onUpDataNoteItem(NotesEntity notesEntity) {
-        Intent intent = new Intent(getContext(), NoteActivity.class);
-        intent.putExtra(NoteActivity.NOTE_EXTRA_KEY, notesEntity);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), NoteActivity.class);
+//        intent.putExtra(NoteActivity.NOTE_EXTRA_KEY, notesEntity);
+//        startActivity(intent);
+        controller.showNoteDetails(notesEntity);
     }
-
 
 
     private ItemTouchHelper getItemTouchHelper() {
@@ -102,5 +130,9 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
             }
         }));
+    }
+
+    public interface Controller {
+        void showNoteDetails(NotesEntity notesEntity);
     }
 }
