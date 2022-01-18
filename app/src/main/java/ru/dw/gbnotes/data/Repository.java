@@ -22,11 +22,11 @@ public class Repository implements RepositoryData {
 
     @Override
     public Boolean deleteItemNotes(NotesEntity notesEntity) {
-       return data.deleteItemNotes(notesEntity);
+        return data.deleteItemNotes(notesEntity);
     }
 
     @Override
     public Boolean upDataItemNote(NotesEntity notesEntity) {
-       return data.upDataItemNote(notesEntity);
+        return data.upDataItemNote(notesEntity);
     }
 }

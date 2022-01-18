@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="@dimen/double_indent">
 
     <EditText
-        android:id="@+id/heading_note_edit_text"
+        android:id="@+id/fragment_details__heading_note_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -21,7 +22,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/description_note_edit_text"
+        android:id="@+id/fragment_details__description_note_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_description"
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/bottom_save_entry_note"
+            android:id="@+id/fragment_details__bottom_save_entry_note"
             style="@style/item_button"
             android:src="@drawable/ic_save"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,15 +45,15 @@
 
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/bottom_delete_entry_note"
+            android:id="@+id/fragment_details__bottom_delete_entry_note"
             style="@style/item_button"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/bottom_save_entry_note"
+            app:layout_constraintStart_toEndOf="@+id/fragment_details__bottom_save_entry_note"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/date_note_edit_text"
+            android:id="@+id/fragment_details__date_note_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/single_indent"

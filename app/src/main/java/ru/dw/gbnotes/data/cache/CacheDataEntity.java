@@ -29,7 +29,15 @@ public class CacheDataEntity implements RepositoryData {
     }
 
     @Override
-    public Boolean upDataItemNote(NotesEntity notesEntity) {return cache.add(notesEntity);}
+    public Boolean upDataItemNote(NotesEntity notesEntity) {
+        for (int i = 0; i < cache.size(); i++) {
+            if (cache.get(i).equals(notesEntity)){
+                cache.set(i,notesEntity);
+                return true;
+            }
+        }
+        return false;
+    }
 
     private static List<NotesEntity> createNoteDataCahe() {
         final List<NotesEntity> listNote = new ArrayList<>();
