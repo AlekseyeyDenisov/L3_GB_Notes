@@ -106,9 +106,6 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     @Override
     public void onUpDataNoteItem(NotesEntity notesEntity) {
-//        Intent intent = new Intent(getContext(), NoteActivity.class);
-//        intent.putExtra(NoteActivity.NOTE_EXTRA_KEY, notesEntity);
-//        startActivity(intent);
         controller.showNoteDetails(notesEntity);
     }
 
