@@ -36,7 +36,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/fragment_details__bottom_save_entry_note"
+            android:id="@+id/fragment_details__button_save_entry_note"
             style="@style/item_button"
             android:src="@drawable/ic_save"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,11 +45,11 @@
 
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/fragment_details__bottom_delete_entry_note"
+            android:id="@+id/fragment_details__button_delete_entry_note"
             style="@style/item_button"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fragment_details__bottom_save_entry_note"
+            app:layout_constraintStart_toEndOf="@+id/fragment_details__button_save_entry_note"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText

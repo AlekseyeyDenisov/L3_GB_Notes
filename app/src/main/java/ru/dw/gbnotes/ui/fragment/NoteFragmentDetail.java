@@ -18,16 +18,16 @@ import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
 public class NoteFragmentDetail extends Fragment {
-    public static final String BUNDLE_KEY = "BUNDLE_KEY";
-    Repository repository;
+    public static final String BUNDLE_FRAGMENT_DETAIL_KEY = "BUNDLE_FRAGMENT_DETAIL_KEY";
+    private Repository repository;
 
-    EditText editTextHeadingNote;
-    EditText editTextDescriptionNote;
-    EditText editTextDateNote;
-    ImageButton bottomSaveNote;
-    ImageButton bottomDeleteNote;
+    private EditText editTextHeadingNote;
+    private EditText editTextDescriptionNote;
+    private EditText editTextDateNote;
+    private ImageButton buttonSaveNote;
+    private ImageButton buttonDeleteNote;
 
-    NotesEntity notesEntity;
+    private NotesEntity notesEntity;
 
     private NoteFragmentDetail.Controller controller;
 
@@ -46,7 +46,7 @@ public class NoteFragmentDetail extends Fragment {
         NoteFragmentDetail fragmentDetail = new NoteFragmentDetail();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(BUNDLE_KEY, notesEntity);
+        bundle.putParcelable(BUNDLE_FRAGMENT_DETAIL_KEY, notesEntity);
 
         fragmentDetail.setArguments(bundle);
 
@@ -65,11 +65,13 @@ public class NoteFragmentDetail extends Fragment {
         repository = App.get().getRepository();
         initView(view);
 
-        notesEntity = getArguments().getParcelable(BUNDLE_KEY);
+        notesEntity = getArguments().getParcelable(BUNDLE_FRAGMENT_DETAIL_KEY);
 
-        if (!notesEntity.getHeading().equals(""))
+        if (!notesEntity.getHeading().equals("")){
             updateNote(notesEntity);
-        else newNote();
+        } else{
+            newNote();
+        }
 
     }
 
@@ -79,20 +81,20 @@ public class NoteFragmentDetail extends Fragment {
         editTextDescriptionNote = view.findViewById(R.id.fragment_details__description_note_edit_text);
         editTextDateNote = view.findViewById(R.id.fragment_details__date_note_edit_text);
 
-        bottomSaveNote = view.findViewById(R.id.fragment_details__bottom_save_entry_note);
-        bottomDeleteNote = view.findViewById(R.id.fragment_details__bottom_delete_entry_note);
+        buttonSaveNote = view.findViewById(R.id.fragment_details__button_save_entry_note);
+        buttonDeleteNote = view.findViewById(R.id.fragment_details__button_delete_entry_note);
 
 
     }
 
     private void newNote() {
-        bottomSaveNote.setOnClickListener(v -> {
+        buttonSaveNote.setOnClickListener(v -> {
             NotesEntity newNotesEntity = upDataView(notesEntity);
             if (!newNotesEntity.getHeading().equals(""))
             repository.setItemNotes(newNotesEntity);
             controller.detailFinish();
         });
-        bottomDeleteNote.setOnClickListener(v -> controller.detailFinish());
+        buttonDeleteNote.setOnClickListener(v -> controller.detailFinish());
     }
 
     private void updateNote(NotesEntity notesEntity) {
@@ -100,12 +102,12 @@ public class NoteFragmentDetail extends Fragment {
         editTextDescriptionNote.setText(notesEntity.getDescription());
         editTextDateNote.setText(notesEntity.getDate());
 
-        bottomDeleteNote.setOnClickListener(v -> {
+        buttonDeleteNote.setOnClickListener(v -> {
             if (repository.deleteItemNotes(notesEntity))
                 controller.detailFinish();
 
         });
-        bottomSaveNote.setOnClickListener(v -> {
+        buttonSaveNote.setOnClickListener(v -> {
             if (repository.upDataItemNote(upDataView(notesEntity)))
                 controller.detailFinish();
         });
