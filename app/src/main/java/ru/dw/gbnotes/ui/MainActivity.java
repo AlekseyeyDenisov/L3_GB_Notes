@@ -32,7 +32,6 @@ public class MainActivity
 
     }
 
-
     @Override
     public void showNoteDetails(NotesEntity notesEntity) {
         Fragment noteFragmentDetail = NoteFragmentDetail.newInstance(notesEntity);
