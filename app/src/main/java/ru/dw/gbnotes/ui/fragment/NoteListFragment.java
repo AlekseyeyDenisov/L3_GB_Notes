@@ -49,7 +49,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_note_list, container, false);
+        return inflater.inflate(R.layout.fragment_list_note, container, false);
     }
 
     @Override
@@ -106,9 +106,6 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     @Override
     public void onUpDataNoteItem(NotesEntity notesEntity) {
-//        Intent intent = new Intent(getContext(), NoteActivity.class);
-//        intent.putExtra(NoteActivity.NOTE_EXTRA_KEY, notesEntity);
-//        startActivity(intent);
         controller.showNoteDetails(notesEntity);
     }
 
