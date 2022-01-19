@@ -17,33 +17,34 @@ import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 
-public class NoteFragmentDetail extends Fragment {
+public class NoteDetailFragment extends Fragment {
     public static final String BUNDLE_FRAGMENT_DETAIL_KEY = "BUNDLE_FRAGMENT_DETAIL_KEY";
     private Repository repository;
 
     private EditText editTextHeadingNote;
     private EditText editTextDescriptionNote;
     private EditText editTextDateNote;
-    private ImageButton buttonSaveNote;
-    private ImageButton buttonDeleteNote;
+    private ImageButton imageButtonSaveNote;
+    private ImageButton imageButtonDeleteNote;
 
     private NotesEntity notesEntity;
 
-    private NoteFragmentDetail.Controller controller;
+    private NoteDetailFragment.Controller controller;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof NoteListFragment.Controller) {
-            controller = (NoteFragmentDetail.Controller) context;
+            controller = (NoteDetailFragment.Controller) context;
         } else {
             throw new IllegalStateException("Activity must implement  NoteFragmentDetail.Controller");
         }
 
     }
 
-    public static NoteFragmentDetail newInstance(NotesEntity notesEntity) {
-        NoteFragmentDetail fragmentDetail = new NoteFragmentDetail();
+    public static NoteDetailFragment newInstance(NotesEntity notesEntity) {
+        NoteDetailFragment fragmentDetail = new NoteDetailFragment();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(BUNDLE_FRAGMENT_DETAIL_KEY, notesEntity);
@@ -57,7 +58,7 @@ public class NoteFragmentDetail extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_insert_update_note, container, false);
+        return inflater.inflate(R.layout.fragment_detail_note, container, false);
     }
 
     @Override
@@ -81,20 +82,20 @@ public class NoteFragmentDetail extends Fragment {
         editTextDescriptionNote = view.findViewById(R.id.fragment_details__description_note_edit_text);
         editTextDateNote = view.findViewById(R.id.fragment_details__date_note_edit_text);
 
-        buttonSaveNote = view.findViewById(R.id.fragment_details__button_save_entry_note);
-        buttonDeleteNote = view.findViewById(R.id.fragment_details__button_delete_entry_note);
+        imageButtonSaveNote = view.findViewById(R.id.fragment_details__button_save_entry_note);
+        imageButtonDeleteNote = view.findViewById(R.id.fragment_details__button_delete_entry_note);
 
 
     }
 
     private void newNote() {
-        buttonSaveNote.setOnClickListener(v -> {
+        imageButtonSaveNote.setOnClickListener(v -> {
             NotesEntity newNotesEntity = upDataView(notesEntity);
             if (!newNotesEntity.getHeading().equals(""))
             repository.setItemNotes(newNotesEntity);
             controller.detailFinish();
         });
-        buttonDeleteNote.setOnClickListener(v -> controller.detailFinish());
+        imageButtonDeleteNote.setOnClickListener(v -> controller.detailFinish());
     }
 
     private void updateNote(NotesEntity notesEntity) {
@@ -102,12 +103,12 @@ public class NoteFragmentDetail extends Fragment {
         editTextDescriptionNote.setText(notesEntity.getDescription());
         editTextDateNote.setText(notesEntity.getDate());
 
-        buttonDeleteNote.setOnClickListener(v -> {
+        imageButtonDeleteNote.setOnClickListener(v -> {
             if (repository.deleteItemNotes(notesEntity))
                 controller.detailFinish();
 
         });
-        buttonSaveNote.setOnClickListener(v -> {
+        imageButtonSaveNote.setOnClickListener(v -> {
             if (repository.upDataItemNote(upDataView(notesEntity)))
                 controller.detailFinish();
         });

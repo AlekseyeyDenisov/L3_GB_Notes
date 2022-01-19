@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment;
 
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.domain.model.NotesEntity;
-import ru.dw.gbnotes.ui.fragment.NoteFragmentDetail;
+import ru.dw.gbnotes.ui.fragment.NoteDetailFragment;
 import ru.dw.gbnotes.ui.fragment.NoteListFragment;
 
 
 public class MainActivity
         extends AppCompatActivity
-        implements NoteListFragment.Controller, NoteFragmentDetail.Controller {
+        implements NoteListFragment.Controller, NoteDetailFragment.Controller {
     private static final String TAG_LIST_FRAGMENT = "TAG_LIST_FRAGMENT";
     private static final String TAG = "@@@";
     FrameLayout secondFrameLayout;
@@ -46,7 +46,7 @@ public class MainActivity
     @Override
     public void showNoteDetails(NotesEntity notesEntity) {
         Log.d(TAG, "showNoteDetails: " + notesEntity.getHeading());
-        Fragment noteFragmentDetail = NoteFragmentDetail.newInstance(notesEntity);
+        Fragment noteFragmentDetail = NoteDetailFragment.newInstance(notesEntity);
 
         int containerId = R.id.activity_main__second_fragment_container;
 
@@ -59,7 +59,8 @@ public class MainActivity
 
     @Override
     public void detailFinish() {
-        secondFrameLayout.removeAllViews();
+        //secondFrameLayout.removeAllViews();
+        getSupportFragmentManager().popBackStack();
         NoteListFragment noteListFragment =
                 (NoteListFragment) getSupportFragmentManager()
                         .findFragmentByTag(TAG_LIST_FRAGMENT);

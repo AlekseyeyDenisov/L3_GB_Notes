@@ -49,7 +49,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_note_list, container, false);
+        return inflater.inflate(R.layout.fragment_list_note, container, false);
     }
 
     @Override
