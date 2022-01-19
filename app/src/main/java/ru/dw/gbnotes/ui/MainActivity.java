@@ -2,6 +2,7 @@ package ru.dw.gbnotes.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,12 +18,14 @@ public class MainActivity
         implements NoteListFragment.Controller, NoteFragmentDetail.Controller {
     private static final String TAG_LIST_FRAGMENT = "TAG_LIST_FRAGMENT";
     private static final String TAG = "@@@";
+    FrameLayout secondFrameLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        secondFrameLayout = findViewById(R.id.activity_main__second_fragment_container);
 
         if (savedInstanceState == null) {
             showListInMainContainer();
@@ -37,7 +40,6 @@ public class MainActivity
                 .beginTransaction()
                 .replace(R.id.activity_main__main_fragment_container, noteListFragment, TAG_LIST_FRAGMENT)
                 .commit();
-
     }
 
 
@@ -57,13 +59,14 @@ public class MainActivity
 
     @Override
     public void detailFinish() {
-        getSupportFragmentManager().popBackStack();
+        secondFrameLayout.removeAllViews();
         NoteListFragment noteListFragment =
                 (NoteListFragment) getSupportFragmentManager()
                         .findFragmentByTag(TAG_LIST_FRAGMENT);
 
-        if (noteListFragment == null)
+        if (noteListFragment == null){
             throw new IllegalStateException("NoteListFragment not on screen");
+        }
         noteListFragment.onResume();
 
     }
