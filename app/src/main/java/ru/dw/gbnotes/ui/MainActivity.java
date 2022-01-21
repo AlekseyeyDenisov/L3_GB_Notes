@@ -45,14 +45,11 @@ public class MainActivity
 
     @Override
     public void showNoteDetails(NotesEntity notesEntity) {
-        Log.d(TAG, "showNoteDetails: " + notesEntity.getHeading());
+        getSupportFragmentManager().popBackStack();
         Fragment noteFragmentDetail = NoteDetailFragment.newInstance(notesEntity);
-
-        int containerId = R.id.activity_main__second_fragment_container;
-
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(containerId, noteFragmentDetail)
+                .add(R.id.activity_main__second_fragment_container, noteFragmentDetail)
                 .addToBackStack(null)
                 .commit();
     }
@@ -60,15 +57,15 @@ public class MainActivity
     @Override
     public void detailFinish() {
         secondFrameLayout.removeAllViews();
-        //getSupportFragmentManager().popBackStack();
         NoteListFragment noteListFragment =
                 (NoteListFragment) getSupportFragmentManager()
                         .findFragmentByTag(TAG_LIST_FRAGMENT);
 
-        if (noteListFragment == null){
+        if (noteListFragment == null) {
             throw new IllegalStateException("NoteListFragment not on screen");
         }
         noteListFragment.onResume();
+
 
     }
 }

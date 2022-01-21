@@ -12,12 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.List;
+
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.model.NotesEntity;
+import ru.dw.gbnotes.domain.model.RepositoryData;
 
-public class NoteDetailFragment extends Fragment {
+public class NoteDetailFragment extends Fragment implements RepositoryData {
     public static final String BUNDLE_FRAGMENT_DETAIL_KEY = "BUNDLE_FRAGMENT_DETAIL_KEY";
     private Repository repository;
 
@@ -61,6 +64,7 @@ public class NoteDetailFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_detail_note, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         repository = App.get().getRepository();
@@ -69,9 +73,11 @@ public class NoteDetailFragment extends Fragment {
         notesEntity = getArguments().getParcelable(BUNDLE_FRAGMENT_DETAIL_KEY);
 
         if (!notesEntity.getHeading().equals("")){
-            updateNote(notesEntity);
+            upDataItemNote(notesEntity);
+            deleteItemNotes(notesEntity);
         } else{
-            newNote();
+            saveItemNotes(notesEntity);
+            imageButtonDeleteNote.setOnClickListener(v -> controller.detailFinish());
         }
 
     }
@@ -88,33 +94,44 @@ public class NoteDetailFragment extends Fragment {
 
     }
 
-    private void newNote() {
+    @Override
+    public Boolean saveItemNotes(NotesEntity notesEntity) {
+        newDataView();
         imageButtonSaveNote.setOnClickListener(v -> {
-            NotesEntity newNotesEntity = upDataView(notesEntity);
+            NotesEntity newNotesEntity = newDataView();
             if (!newNotesEntity.getHeading().equals(""))
-            repository.setItemNotes(newNotesEntity);
+                repository.saveItemNotes(newNotesEntity);
             controller.detailFinish();
         });
-        imageButtonDeleteNote.setOnClickListener(v -> controller.detailFinish());
+
+        return null;
     }
 
-    private void updateNote(NotesEntity notesEntity) {
-        editTextHeadingNote.setText(notesEntity.getHeading());
-        editTextDescriptionNote.setText(notesEntity.getDescription());
-        editTextDateNote.setText(notesEntity.getDate());
-
+    @Override
+    public Boolean deleteItemNotes(NotesEntity notesEntity) {
         imageButtonDeleteNote.setOnClickListener(v -> {
             if (repository.deleteItemNotes(notesEntity))
                 controller.detailFinish();
 
         });
-        imageButtonSaveNote.setOnClickListener(v -> {
-            if (repository.upDataItemNote(upDataView(notesEntity)))
-                controller.detailFinish();
-        });
+        return null;
     }
 
-    private NotesEntity upDataView(NotesEntity notesEntity) {
+    @Override
+    public Boolean upDataItemNote(NotesEntity notesEntity) {
+
+        editTextHeadingNote.setText(notesEntity.getHeading());
+        editTextDescriptionNote.setText(notesEntity.getDescription());
+        editTextDateNote.setText(notesEntity.getDate());
+
+        imageButtonSaveNote.setOnClickListener(v -> {
+            if (repository.upDataItemNote(newDataView()))
+                controller.detailFinish();
+        });
+        return null;
+    }
+
+    private NotesEntity newDataView() {
         notesEntity.setHeading(editTextHeadingNote.getText().toString());
         notesEntity.setDescription(editTextDescriptionNote.getText().toString());
         notesEntity.setDate(editTextDateNote.getText().toString());
@@ -127,5 +144,10 @@ public class NoteDetailFragment extends Fragment {
     public void onPause() {
         super.onPause();
         controller.detailFinish();
+    }
+
+    @Override
+    public List<NotesEntity> getNoteData() {
+        return null;
     }
 }
