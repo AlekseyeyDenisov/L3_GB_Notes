@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -72,10 +75,10 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
 
         notesEntity = getArguments().getParcelable(BUNDLE_FRAGMENT_DETAIL_KEY);
 
-        if (!notesEntity.getHeading().equals("")){
+        if (!notesEntity.getHeading().equals("")) {
             upDataItemNote(notesEntity);
             deleteItemNotes(notesEntity);
-        } else{
+        } else {
             saveItemNotes(notesEntity);
             imageButtonDeleteNote.setOnClickListener(v -> controller.detailFinish());
         }
@@ -99,8 +102,10 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
         newDataView();
         imageButtonSaveNote.setOnClickListener(v -> {
             NotesEntity newNotesEntity = newDataView();
-            if (!newNotesEntity.getHeading().equals(""))
+            if (!newNotesEntity.getHeading().equals("")) {
                 repository.saveItemNotes(newNotesEntity);
+                systemToast(R.string.message_new_data_saved_note);
+            }
             controller.detailFinish();
         });
 
@@ -112,6 +117,7 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
         imageButtonDeleteNote.setOnClickListener(v -> {
             if (repository.deleteItemNotes(notesEntity))
                 controller.detailFinish();
+            systemToast(R.string.message_delete_data_item);
 
         });
         return null;
@@ -127,6 +133,7 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
         imageButtonSaveNote.setOnClickListener(v -> {
             if (repository.upDataItemNote(newDataView()))
                 controller.detailFinish();
+            systemToast(R.string.message_up_data_item);
         });
         return null;
     }
@@ -138,7 +145,9 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
         return notesEntity;
     }
 
-    public interface Controller { void detailFinish(); }
+    public interface Controller {
+        void detailFinish();
+    }
 
     @Override
     public void onPause() {
@@ -150,4 +159,14 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
     public List<NotesEntity> getNoteData() {
         return null;
     }
+
+    private void systemToast(int id) {
+        Toast.makeText(
+                requireContext(),
+                requireActivity().getString(id),
+                Toast.LENGTH_SHORT).show();
+    }
+
+
+
 }

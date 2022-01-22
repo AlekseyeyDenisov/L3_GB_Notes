@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -95,13 +97,28 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     @Override
     public void onDeleteNoteItem(NotesEntity notesEntity) {
-        List<NotesEntity> repoData = repository.getNoteData();
-        for (int i = 0; i < repoData.size(); i++) {
-            if (repoData.get(i).equals(notesEntity)) {
-                repository.getNoteData().remove(repoData.get(i));
-                adapter.deleteItem(i);
-            }
-        }
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.attention_title_alert_dialog)
+                .setMessage(R.string.message_delete_item_note_alert_dialog)
+                .setPositiveButton(R.string.yes,(dialog, which) -> {
+                    List<NotesEntity> repoData = repository.getNoteData();
+                    for (int i = 0; i < repoData.size(); i++) {
+                        if (repoData.get(i).equals(notesEntity)) {
+                            repository.getNoteData().remove(repoData.get(i));
+                            adapter.deleteItem(i);
+                            Toast.makeText(
+                                    getContext(),
+                                    requireActivity().getString(R.string.message_delete_data_item),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                })
+                .setNegativeButton(R.string.no,((dialog, which) -> {
+
+                }))
+                .show();
+
     }
 
     @Override
