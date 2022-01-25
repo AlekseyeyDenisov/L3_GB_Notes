@@ -3,6 +3,9 @@ package ru.dw.gbnotes.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -48,6 +51,12 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,9 +67,12 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         fab = view.findViewById(R.id.fragment_note_list_fab);
+        fab.setOnClickListener(v -> {
+            newNote();
+        });
         repository = App.get().getRepository();
         initRecycler(view);
-        newNote();
+
 
     }
 
@@ -82,16 +94,14 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     }
 
     private void newNote() {
-        fab.setOnClickListener(v -> {
-            final Random random = new Random();
-            NotesEntity notesEntity = new NotesEntity(
-                    random.nextLong(),
-                    "",
-                    "",
-                    ""
-            );
-            controller.showNoteDetails(notesEntity);
-        });
+        final Random random = new Random();
+        NotesEntity notesEntity = new NotesEntity(
+                random.nextLong(),
+                "",
+                "",
+                ""
+        );
+        controller.showNoteDetails(notesEntity);
     }
 
 
@@ -100,7 +110,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
         new AlertDialog.Builder(getContext())
                 .setTitle(R.string.attention_title_alert_dialog)
                 .setMessage(R.string.message_delete_item_note_alert_dialog)
-                .setPositiveButton(R.string.yes,(dialog, which) -> {
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
                     List<NotesEntity> repoData = repository.getNoteData();
                     for (int i = 0; i < repoData.size(); i++) {
                         if (repoData.get(i).equals(notesEntity)) {
@@ -114,7 +124,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
                     }
 
                 })
-                .setNegativeButton(R.string.no,((dialog, which) -> {
+                .setNegativeButton(R.string.no, ((dialog, which) -> {
 
                 }))
                 .show();
@@ -147,5 +157,20 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     public interface Controller {
         void showNoteDetails(NotesEntity notesEntity);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.add_note) {
+            newNote();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

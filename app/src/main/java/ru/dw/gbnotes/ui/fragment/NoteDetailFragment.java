@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -73,6 +72,7 @@ public class NoteDetailFragment extends Fragment implements RepositoryData {
         repository = App.get().getRepository();
         initView(view);
 
+        assert getArguments() != null;
         notesEntity = getArguments().getParcelable(BUNDLE_FRAGMENT_DETAIL_KEY);
 
         if (!notesEntity.getHeading().equals("")) {
