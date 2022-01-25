@@ -19,7 +19,7 @@ public class CacheDataEntity implements RepositoryData {
     }
 
     @Override
-    public Boolean setItemNotes(NotesEntity notesEntity) {
+    public Boolean saveItemNotes(NotesEntity notesEntity) {
         return cache.add(notesEntity);
     }
 

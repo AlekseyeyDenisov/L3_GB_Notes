@@ -6,7 +6,7 @@ import java.util.List;
 public interface RepositoryData {
 
     List<NotesEntity> getNoteData();
-    Boolean setItemNotes(NotesEntity notesEntity);
+    Boolean saveItemNotes(NotesEntity notesEntity);
     Boolean deleteItemNotes(NotesEntity notesEntity);
     Boolean upDataItemNote(NotesEntity notesEntity);
 }

@@ -1,7 +1,7 @@
 package ru.dw.gbnotes.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +17,6 @@ public class MainActivity
         extends AppCompatActivity
         implements NoteListFragment.Controller, NoteDetailFragment.Controller {
     private static final String TAG_LIST_FRAGMENT = "TAG_LIST_FRAGMENT";
-    private static final String TAG = "@@@";
     FrameLayout secondFrameLayout;
 
 
@@ -34,7 +33,6 @@ public class MainActivity
     }
 
     private void showListInMainContainer() {
-        Log.d(TAG, "showListInMainContainer: ");
         Fragment noteListFragment = new NoteListFragment();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -45,14 +43,11 @@ public class MainActivity
 
     @Override
     public void showNoteDetails(NotesEntity notesEntity) {
-        Log.d(TAG, "showNoteDetails: " + notesEntity.getHeading());
+        getSupportFragmentManager().popBackStack();
         Fragment noteFragmentDetail = NoteDetailFragment.newInstance(notesEntity);
-
-        int containerId = R.id.activity_main__second_fragment_container;
-
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(containerId, noteFragmentDetail)
+                .add(R.id.activity_main__second_fragment_container, noteFragmentDetail)
                 .addToBackStack(null)
                 .commit();
     }
@@ -60,15 +55,27 @@ public class MainActivity
     @Override
     public void detailFinish() {
         secondFrameLayout.removeAllViews();
-        //getSupportFragmentManager().popBackStack();
         NoteListFragment noteListFragment =
                 (NoteListFragment) getSupportFragmentManager()
                         .findFragmentByTag(TAG_LIST_FRAGMENT);
 
-        if (noteListFragment == null){
-            throw new IllegalStateException("NoteListFragment not on screen");
+        if (noteListFragment == null) {
+            throw new IllegalStateException(getString(R.string.note_list_fragment_not_on_screen));
         }
         noteListFragment.onResume();
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (secondFrameLayout.requestFocus()){
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.attention_title_alert_dialog)
+                    .setMessage(R.string.message_your_data_is_not_saved)
+                    .setPositiveButton(R.string.yes,(dialog, which) -> detailFinish())
+                    .setNegativeButton(R.string.no,(dialog, which) -> { })
+                    .show();
+
+        }else
+            finish();
     }
 }

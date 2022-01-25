@@ -7,17 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
+
 import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.model.NotesEntity;
+import ru.dw.gbnotes.domain.model.RepositoryData;
 
-public class NoteDetailFragment extends Fragment {
+public class NoteDetailFragment extends Fragment implements RepositoryData {
     public static final String BUNDLE_FRAGMENT_DETAIL_KEY = "BUNDLE_FRAGMENT_DETAIL_KEY";
     private Repository repository;
 
@@ -61,6 +67,7 @@ public class NoteDetailFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_detail_note, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         repository = App.get().getRepository();
@@ -68,10 +75,12 @@ public class NoteDetailFragment extends Fragment {
 
         notesEntity = getArguments().getParcelable(BUNDLE_FRAGMENT_DETAIL_KEY);
 
-        if (!notesEntity.getHeading().equals("")){
-            updateNote(notesEntity);
-        } else{
-            newNote();
+        if (!notesEntity.getHeading().equals("")) {
+            upDataItemNote(notesEntity);
+            deleteItemNotes(notesEntity);
+        } else {
+            saveItemNotes(notesEntity);
+            imageButtonDeleteNote.setOnClickListener(v -> controller.detailFinish());
         }
 
     }
@@ -88,44 +97,76 @@ public class NoteDetailFragment extends Fragment {
 
     }
 
-    private void newNote() {
+    @Override
+    public Boolean saveItemNotes(NotesEntity notesEntity) {
+        newDataView();
         imageButtonSaveNote.setOnClickListener(v -> {
-            NotesEntity newNotesEntity = upDataView(notesEntity);
-            if (!newNotesEntity.getHeading().equals(""))
-            repository.setItemNotes(newNotesEntity);
+            NotesEntity newNotesEntity = newDataView();
+            if (!newNotesEntity.getHeading().equals("")) {
+                repository.saveItemNotes(newNotesEntity);
+                systemToast(R.string.message_new_data_saved_note);
+            }
             controller.detailFinish();
         });
-        imageButtonDeleteNote.setOnClickListener(v -> controller.detailFinish());
+
+        return null;
     }
 
-    private void updateNote(NotesEntity notesEntity) {
+    @Override
+    public Boolean deleteItemNotes(NotesEntity notesEntity) {
+        imageButtonDeleteNote.setOnClickListener(v -> {
+            if (repository.deleteItemNotes(notesEntity))
+                controller.detailFinish();
+            systemToast(R.string.message_delete_data_item);
+
+        });
+        return null;
+    }
+
+    @Override
+    public Boolean upDataItemNote(NotesEntity notesEntity) {
+
         editTextHeadingNote.setText(notesEntity.getHeading());
         editTextDescriptionNote.setText(notesEntity.getDescription());
         editTextDateNote.setText(notesEntity.getDate());
 
-        imageButtonDeleteNote.setOnClickListener(v -> {
-            if (repository.deleteItemNotes(notesEntity))
-                controller.detailFinish();
-
-        });
         imageButtonSaveNote.setOnClickListener(v -> {
-            if (repository.upDataItemNote(upDataView(notesEntity)))
+            if (repository.upDataItemNote(newDataView()))
                 controller.detailFinish();
+            systemToast(R.string.message_up_data_item);
         });
+        return null;
     }
 
-    private NotesEntity upDataView(NotesEntity notesEntity) {
+    private NotesEntity newDataView() {
         notesEntity.setHeading(editTextHeadingNote.getText().toString());
         notesEntity.setDescription(editTextDescriptionNote.getText().toString());
         notesEntity.setDate(editTextDateNote.getText().toString());
         return notesEntity;
     }
 
-    public interface Controller { void detailFinish(); }
+    public interface Controller {
+        void detailFinish();
+    }
 
     @Override
     public void onPause() {
         super.onPause();
         controller.detailFinish();
     }
+
+    @Override
+    public List<NotesEntity> getNoteData() {
+        return null;
+    }
+
+    private void systemToast(int id) {
+        Toast.makeText(
+                requireContext(),
+                requireActivity().getString(id),
+                Toast.LENGTH_SHORT).show();
+    }
+
+
+
 }

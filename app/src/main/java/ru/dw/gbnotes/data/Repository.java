@@ -16,8 +16,8 @@ public class Repository implements RepositoryData {
     }
 
     @Override
-    public Boolean setItemNotes(NotesEntity notesEntity) {
-        return data.setItemNotes(notesEntity);
+    public Boolean saveItemNotes(NotesEntity notesEntity) {
+        return data.saveItemNotes(notesEntity);
     }
 
     @Override
