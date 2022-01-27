@@ -3,12 +3,8 @@ package ru.dw.gbnotes.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +25,7 @@ import ru.dw.gbnotes.data.Repository;
 import ru.dw.gbnotes.domain.OnNoteListener;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.ui.adapter.NoteAdapter;
+import ru.dw.gbnotes.utils.Util;
 
 public class NoteListFragment extends Fragment implements OnNoteListener {
     NoteAdapter adapter;
@@ -49,12 +46,6 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
             throw new IllegalStateException("Activity must implement  NoteListFragment.Controller");
         }
 
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -116,10 +107,8 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
                         if (repoData.get(i).equals(notesEntity)) {
                             repository.getNoteData().remove(repoData.get(i));
                             adapter.deleteItem(i);
-                            Toast.makeText(
-                                    getContext(),
-                                    requireActivity().getString(R.string.message_delete_data_item),
-                                    Toast.LENGTH_SHORT).show();
+                            Util.systemToast(requireContext(), R.string.message_delete_data_item);
+
                         }
                     }
 
@@ -159,18 +148,4 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
         void showNoteDetails(NotesEntity notesEntity);
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.add_note) {
-            newNote();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
