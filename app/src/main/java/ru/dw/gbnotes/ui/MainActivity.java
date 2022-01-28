@@ -53,10 +53,10 @@ public class MainActivity
     @Override
     public void showNoteDetails(NotesEntity notesEntity) {
         getSupportFragmentManager().popBackStack();
-        if (notesEntity.getHeading().equals("")){
+        if (notesEntity.getHeading().isEmpty()){
             Fragment newNoteFragment = NewNoteFragment.newInstance(notesEntity);
             showFragmentSecondary(newNoteFragment);
-        }else{
+        } else {
             Fragment updateNoteFragment = UpdateNoteFragment.newInstance(notesEntity);
             showFragmentSecondary(updateNoteFragment);
         }
