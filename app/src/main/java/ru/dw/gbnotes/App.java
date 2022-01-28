@@ -12,7 +12,7 @@ import ru.dw.gbnotes.data.room.AppRoomDatabase;
 public class App extends Application {
     private static App instance;
     private  AppRoomDatabase roomDatabase;
-    private final Repository repository = new Repository();
+    private  Repository repository;
 
 
 
@@ -21,7 +21,9 @@ public class App extends Application {
         super.onCreate();
         instance = this;
         roomDatabase = Room.databaseBuilder(this, AppRoomDatabase.class, "database")
+                .allowMainThreadQueries()
                 .build();
+        repository =  new Repository();
     }
 
     public Repository getRepository() {

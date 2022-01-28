@@ -2,6 +2,7 @@ package ru.dw.gbnotes.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,13 +103,13 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
                 .setTitle(R.string.attention_title_alert_dialog)
                 .setMessage(R.string.message_delete_item_note_alert_dialog)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
+
                     List<NotesEntity> repoData = repository.getAllNotes();
                     for (int i = 0; i < repoData.size(); i++) {
-                        if (repoData.get(i).equals(notesEntity)) {
-                            repository.getAllNotes().remove(repoData.get(i));
+                        if (repoData.get(i).getId().equals(notesEntity.getId())) {
                             adapter.deleteItem(i);
+                            repository.deleteItemNotes(notesEntity);
                             Util.systemToast(requireContext(), R.string.message_delete_data_item);
-
                         }
                     }
 
@@ -136,10 +137,8 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 List<NotesEntity> list = repository.getAllNotes();
-                repository.getAllNotes().remove(list.get(viewHolder.getAdapterPosition()));
+                repository.deleteItemNotes(list.get(viewHolder.getAdapterPosition()));
                 adapter.deleteItem(viewHolder.getAdapterPosition());
-
-
             }
         }));
     }

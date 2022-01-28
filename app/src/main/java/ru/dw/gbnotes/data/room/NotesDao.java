@@ -16,9 +16,6 @@ public interface NotesDao {
     @Query("SELECT * FROM notesEntity")
     List<NotesEntity> getAll();
 
-    @Query("SELECT * FROM notesentity WHERE id = :id")
-    NotesEntity getById(long id);
-
     @Insert
     void insert(NotesEntity  notesEntity);
 

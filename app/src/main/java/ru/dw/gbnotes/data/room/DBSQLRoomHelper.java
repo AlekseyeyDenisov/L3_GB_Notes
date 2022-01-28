@@ -1,7 +1,8 @@
 package ru.dw.gbnotes.data.room;
 
 
-import java.util.ArrayList;
+import android.util.Log;
+
 import java.util.List;
 
 import ru.dw.gbnotes.App;
@@ -9,6 +10,7 @@ import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.domain.model.RepositoryData;
 
 public class DBSQLRoomHelper implements RepositoryData {
+    private static final String TAG = "@@@";
 
 
     private final AppRoomDatabase database = App.getInstance().getDatabase();
@@ -16,27 +18,24 @@ public class DBSQLRoomHelper implements RepositoryData {
 
     @Override
     public List<NotesEntity> getAllNotes() {
-        List<NotesEntity> list = new ArrayList<>();
-//
-//        if (list != null){
-//            return list;
-//        }
-        return list;
+        return database.notesEntity().getAll();
     }
 
     @Override
     public Boolean saveItemNotes(NotesEntity notesEntity) {
-        //database.notesEntity().insert(notesEntity);
+        database.notesEntity().insert(notesEntity);
         return true;
     }
 
     @Override
     public Boolean deleteItemNotes(NotesEntity notesEntity) {
-        return null;
+        database.notesEntity().delete(notesEntity);
+        return true;
     }
 
     @Override
     public Boolean upDataItemNote(NotesEntity notesEntity) {
-        return null;
+        database.notesEntity().update(notesEntity);
+        return true;
     }
 }
