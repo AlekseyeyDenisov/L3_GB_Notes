@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.Random;
 
+import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.R;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.ui.fragment.NewNoteFragment;
@@ -38,6 +40,7 @@ public class MainActivity
         if (savedInstanceState == null) {
             showListInMainContainer();
         }
+        App.getInstance().getCounter().setCount();
 
     }
 

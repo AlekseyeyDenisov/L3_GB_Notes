@@ -1,8 +1,6 @@
 package ru.dw.gbnotes.data.room;
 
 
-import android.util.Log;
-
 import java.util.List;
 
 import ru.dw.gbnotes.App;
@@ -10,7 +8,6 @@ import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.domain.model.RepositoryData;
 
 public class DBSQLRoomHelper implements RepositoryData {
-    private static final String TAG = "@@@";
 
 
     private final AppRoomDatabase database = App.getInstance().getDatabase();

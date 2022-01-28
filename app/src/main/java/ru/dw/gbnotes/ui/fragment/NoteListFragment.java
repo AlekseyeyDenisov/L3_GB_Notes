@@ -2,7 +2,6 @@ package ru.dw.gbnotes.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,9 +58,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         fab = view.findViewById(R.id.fragment_note_list_fab);
-        fab.setOnClickListener(v -> {
-            newNote();
-        });
+        fab.setOnClickListener(v -> newNote());
         repository = App.getInstance().getRepository();
         initRecycler(view);
 
@@ -99,7 +96,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
     @Override
     public void onDeleteNoteItem(NotesEntity notesEntity) {
-        new AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.attention_title_alert_dialog)
                 .setMessage(R.string.message_delete_item_note_alert_dialog)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {

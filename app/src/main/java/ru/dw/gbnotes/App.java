@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.room.Room;
 
 import ru.dw.gbnotes.data.Repository;
+import ru.dw.gbnotes.data.SharedPreferencesCounter;
 import ru.dw.gbnotes.data.room.AppRoomDatabase;
 
 
@@ -13,6 +14,7 @@ public class App extends Application {
     private static App instance;
     private  AppRoomDatabase roomDatabase;
     private  Repository repository;
+    private SharedPreferencesCounter counter;
 
 
 
@@ -24,6 +26,7 @@ public class App extends Application {
                 .allowMainThreadQueries()
                 .build();
         repository =  new Repository();
+        counter = new SharedPreferencesCounter(this);
     }
 
     public Repository getRepository() {
@@ -36,6 +39,10 @@ public class App extends Application {
 
     public AppRoomDatabase getDatabase() {
         return roomDatabase;
+    }
+
+    public SharedPreferencesCounter getCounter(){
+        return counter;
     }
 
 }

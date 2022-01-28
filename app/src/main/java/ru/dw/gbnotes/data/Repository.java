@@ -3,7 +3,6 @@ package ru.dw.gbnotes.data;
 
 import java.util.List;
 
-import ru.dw.gbnotes.App;
 import ru.dw.gbnotes.data.room.DBSQLRoomHelper;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.domain.model.RepositoryData;
