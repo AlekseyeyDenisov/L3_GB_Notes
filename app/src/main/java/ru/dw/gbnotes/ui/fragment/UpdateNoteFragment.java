@@ -71,7 +71,7 @@ public class UpdateNoteFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        repository = App.get().getRepository();
+        repository = App.getInstance().getRepository();
         initView(view);
 
         assert getArguments() != null;

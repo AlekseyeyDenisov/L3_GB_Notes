@@ -75,7 +75,7 @@ public class NewNoteFragment extends Fragment implements RepositoryData {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        repository = App.get().getRepository();
+        repository = App.getInstance().getRepository();
         initView(view);
         assert getArguments() != null;
         notesEntity = getArguments().getParcelable(BUNDLE_FRAGMENT_DETAIL_KEY);
@@ -150,7 +150,7 @@ public class NewNoteFragment extends Fragment implements RepositoryData {
     }
 
     @Override
-    public List<NotesEntity> getNoteData() {
+    public List<NotesEntity> getAllNotes() {
         return null;
     }
 

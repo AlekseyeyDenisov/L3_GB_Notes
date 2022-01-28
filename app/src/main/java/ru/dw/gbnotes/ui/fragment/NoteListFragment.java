@@ -61,7 +61,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
         fab.setOnClickListener(v -> {
             newNote();
         });
-        repository = App.get().getRepository();
+        repository = App.getInstance().getRepository();
         initRecycler(view);
 
 
@@ -71,7 +71,7 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
     @Override
     public void onResume() {
         super.onResume();
-        adapter.setData(repository.getNoteData());
+        adapter.setData(repository.getAllNotes());
     }
 
     private void initRecycler(@NonNull View view) {
@@ -102,10 +102,10 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
                 .setTitle(R.string.attention_title_alert_dialog)
                 .setMessage(R.string.message_delete_item_note_alert_dialog)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    List<NotesEntity> repoData = repository.getNoteData();
+                    List<NotesEntity> repoData = repository.getAllNotes();
                     for (int i = 0; i < repoData.size(); i++) {
                         if (repoData.get(i).equals(notesEntity)) {
-                            repository.getNoteData().remove(repoData.get(i));
+                            repository.getAllNotes().remove(repoData.get(i));
                             adapter.deleteItem(i);
                             Util.systemToast(requireContext(), R.string.message_delete_data_item);
 
@@ -135,8 +135,8 @@ public class NoteListFragment extends Fragment implements OnNoteListener {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                List<NotesEntity> list = repository.getNoteData();
-                repository.getNoteData().remove(list.get(viewHolder.getAdapterPosition()));
+                List<NotesEntity> list = repository.getAllNotes();
+                repository.getAllNotes().remove(list.get(viewHolder.getAdapterPosition()));
                 adapter.deleteItem(viewHolder.getAdapterPosition());
 
 

@@ -3,10 +3,14 @@ package ru.dw.gbnotes.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "notesEntity")
 public class NotesEntity implements Parcelable {
 
-
+    @PrimaryKey
     private final Long id;
     private String heading;
     private String description;
@@ -51,6 +55,7 @@ public class NotesEntity implements Parcelable {
     public void setDate(String date) {
         this.date = date;
     }
+
 
     public NotesEntity(Long id, String heading, String description, String date) {
         this.id = id;

@@ -14,7 +14,7 @@ public class CacheDataEntity implements RepositoryData {
     }
 
     @Override
-    public List<NotesEntity> getNoteData() {
+    public List<NotesEntity> getAllNotes() {
         return cache;
     }
 

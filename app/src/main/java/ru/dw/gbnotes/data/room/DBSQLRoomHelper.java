@@ -1,35 +1,42 @@
-package ru.dw.gbnotes.data;
+package ru.dw.gbnotes.data.room;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.dw.gbnotes.App;
-import ru.dw.gbnotes.data.room.DBSQLRoomHelper;
 import ru.dw.gbnotes.domain.model.NotesEntity;
 import ru.dw.gbnotes.domain.model.RepositoryData;
 
-public class Repository implements RepositoryData {
+public class DBSQLRoomHelper implements RepositoryData {
 
-    RepositoryData data = new DBSQLRoomHelper();
-    //RepositoryData data = new CacheDataEntity();
+
+    private final AppRoomDatabase database = App.getInstance().getDatabase();
+
 
     @Override
     public List<NotesEntity> getAllNotes() {
-        return data.getAllNotes();
+        List<NotesEntity> list = new ArrayList<>();
+//
+//        if (list != null){
+//            return list;
+//        }
+        return list;
     }
 
     @Override
     public Boolean saveItemNotes(NotesEntity notesEntity) {
-        return data.saveItemNotes(notesEntity);
+        //database.notesEntity().insert(notesEntity);
+        return true;
     }
 
     @Override
     public Boolean deleteItemNotes(NotesEntity notesEntity) {
-        return data.deleteItemNotes(notesEntity);
+        return null;
     }
 
     @Override
     public Boolean upDataItemNote(NotesEntity notesEntity) {
-        return data.upDataItemNote(notesEntity);
+        return null;
     }
 }
