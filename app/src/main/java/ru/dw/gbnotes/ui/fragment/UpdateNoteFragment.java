@@ -33,14 +33,14 @@ public class UpdateNoteFragment extends Fragment {
 
     private NotesEntity notesEntity;
 
-    private UpdateNoteFragment.Controller controller;
+    private Controller controller;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof NoteListFragment.Controller) {
-            controller = (UpdateNoteFragment.Controller) context;
+        if (context instanceof Controller) {
+            controller = (Controller) context;
         } else {
             throw new IllegalStateException("Activity must implement  NoteFragmentDetail.Controller");
         }
@@ -127,9 +127,7 @@ public class UpdateNoteFragment extends Fragment {
         return notesEntity;
     }
 
-    public interface Controller {
-        void detailFinish();
-    }
+
 
     @Override
     public void onPause() {

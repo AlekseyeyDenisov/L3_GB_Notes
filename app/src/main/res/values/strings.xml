@@ -22,4 +22,6 @@
     <string name="note_list_fragment_not_on_screen">NoteListFragment not on screen</string>
     <string name="new_note">Новая запись</string>
     <string name="save_update">Сохранить обнавить</string>
+    <string name="number_of_visits">Колличество заходов</string>
+    <string name="description_counter">Количество запусков программы</string>
 </resources>

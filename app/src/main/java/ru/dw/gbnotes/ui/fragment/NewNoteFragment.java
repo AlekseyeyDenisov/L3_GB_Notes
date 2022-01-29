@@ -37,14 +37,14 @@ public class NewNoteFragment extends Fragment implements RepositoryData {
 
     private NotesEntity notesEntity;
 
-    private NewNoteFragment.Controller controller;
+    private Controller controller;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof NoteListFragment.Controller) {
-            controller = (NewNoteFragment.Controller) context;
+        if (context instanceof Controller) {
+            controller = (Controller) context;
         } else {
             throw new IllegalStateException("Activity must implement  NoteFragmentDetail.Controller");
         }
@@ -139,9 +139,7 @@ public class NewNoteFragment extends Fragment implements RepositoryData {
         return notesEntity;
     }
 
-    public interface Controller {
-        void detailFinish();
-    }
+
 
     @Override
     public void onPause() {
